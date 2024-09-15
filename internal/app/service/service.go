@@ -18,7 +18,6 @@ import (
 	"github.com/nidemidovich/trontracker/internal/config"
 	"github.com/nidemidovich/trontracker/internal/infrastructure/telegram"
 	"github.com/nidemidovich/trontracker/internal/infrastructure/tron"
-	"github.com/nidemidovich/trontracker/internal/infrastructure/tronscan"
 	"github.com/nidemidovich/trontracker/internal/parser"
 )
 
@@ -31,11 +30,6 @@ func Run() error {
 	tronGridConfig, err := config.NewTronGrid()
 	if err != nil {
 		log.Fatalf("error init tron grid config: %s", err)
-	}
-
-	tronscanConfig, err := config.NewTronscan()
-	if err != nil {
-		log.Fatalf("error init tronscan config: %s", err)
 	}
 
 	curDir, _ := os.Getwd()
@@ -81,9 +75,8 @@ func Run() error {
 	}
 
 	tronClient := tron.NewClient(http.Client{}, tronGridConfig.APIKey)
-	tronscanClient := tronscan.NewClient(http.Client{}, tronscanConfig.APIKey)
 
-	parser := parser.New(*tronClient, *tronscanClient, b, pumpSwapRouterABI, uniswapABI, trc20ABI)
+	parser := parser.New(*tronClient, b, pumpSwapRouterABI, uniswapABI, trc20ABI)
 
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()

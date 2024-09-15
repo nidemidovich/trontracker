@@ -18,7 +18,6 @@ import (
 
 	tron_dto "github.com/nidemidovich/trontracker/internal/dto/tron"
 	"github.com/nidemidovich/trontracker/internal/infrastructure/tron"
-	"github.com/nidemidovich/trontracker/internal/infrastructure/tronscan"
 )
 
 const (
@@ -28,17 +27,15 @@ const (
 
 type Parser struct {
 	tronClient        tron.Client
-	tronScanClient    tronscan.Client
 	bot               *tele.Bot
 	pumpSwapRouterABI abi.ABI
 	uniswapABI        abi.ABI
 	trc20ABI          abi.ABI
 }
 
-func New(client tron.Client, tronScanClient tronscan.Client, bot *tele.Bot, pumpSwapRouterABI abi.ABI, uniswapABI abi.ABI, trc20ABI abi.ABI) *Parser {
+func New(client tron.Client, bot *tele.Bot, pumpSwapRouterABI abi.ABI, uniswapABI abi.ABI, trc20ABI abi.ABI) *Parser {
 	return &Parser{
 		tronClient:        client,
-		tronScanClient:    tronScanClient,
 		bot:               bot,
 		pumpSwapRouterABI: pumpSwapRouterABI,
 		uniswapABI:        uniswapABI,
